@@ -20,12 +20,25 @@ import
     DepositAddress,
     Hater,
     Bet,
-    Race
+    Race,
+    Withdrawal
 } from "../generated/schema"
 
 
 export function handleBetMade(event: BetMade): void
 {
+    let bet = new Bet(event.transaction.hash.toHex());
+    bet.race = event.params.raceId.toString();
+    bet.rat = event.params.ratId.toString();
+    bet.hater = event.params.user.toHex();
+    bet.amount = event.params.amount;
+    bet.save();
+
+    let race = Race.load(bet.race);
+    assert(race, "Bet on unknown race");
+    race = race as Race;
+    race.amount += bet.amount;
+    race.save();
 }
 
 export function handleDepositAddressCreated(event: DepositAddressCreated): void
@@ -92,4 +105,10 @@ export function handleTransfer(event: Transfer): void
 
 export function handleWithdrawn(event: Withdrawn): void
 {
+    let withdrawal = new Withdrawal(event.transaction.hash.toHex());
+    withdrawal.hater = event.transaction.from.toHex();
+    withdrawal.race = event.params.raceId.toString();
+    withdrawal.withdrawalTime = event.block.timestamp;
+    withdrawal.amount = event.params.amount;
+    withdrawal.save();
 }

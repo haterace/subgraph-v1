@@ -18,6 +18,7 @@ type DepositAddress @entity {
 type Hater @entity {
   id: ID!
   depositAddresses: [DepositAddress!] @derivedFrom(field: "hater")
+  withdrawals: [Withdrawal!] @derivedFrom(field: "hater")
 }
 
 type Bet @entity {
@@ -36,4 +37,12 @@ type Race @entity {
   winner: Rat
   amount: BigInt!
   finished: Boolean!
+}
+
+type Withdrawal @entity {
+  id: ID!
+  hater: Hater!
+  race: Race!
+  withdrawalTime: BigInt!
+  amount: BigInt!
 }
