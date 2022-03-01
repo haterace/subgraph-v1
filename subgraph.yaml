@@ -1,0 +1,43 @@
+specVersion: 0.0.2
+description: Hate Race is a daily race of the most vile and ugly rats that parasitize on society
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: RatFactory
+    network: matic
+    source:
+      address: "0x962bF21DF8f096D76f10605caE0dfC8a2d3F15EF"
+      abi: RatFactory
+      startBlock: 25219680
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - ApprovalForAll
+        - BetMade
+        - DepositAddressCreated
+        - OwnershipTransferred
+        - RaceFinished
+        - RaceStarted
+        - Transfer
+        - Withdrawn
+      abis:
+        - name: RatFactory
+          file: ./abis/RatFactory.json
+      eventHandlers:
+        - event: BetMade(indexed address,indexed uint256,indexed uint256,uint256)
+          handler: handleBetMade
+        - event: DepositAddressCreated(indexed address,indexed uint256,indexed address)
+          handler: handleDepositAddressCreated
+        - event: RaceFinished(indexed uint256,indexed uint256)
+          handler: handleRaceFinished
+        - event: RaceStarted(indexed uint256,uint256)
+          handler: handleRaceStarted
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: Withdrawn(indexed address,indexed uint256,uint256)
+          handler: handleWithdrawn
+      file: ./src/mapping.ts

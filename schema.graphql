@@ -1,0 +1,39 @@
+
+#
+# GraphQL schema for HateRace project
+#
+
+type Rat @entity {
+  id: ID!
+  owner: Bytes!
+}
+
+type DepositAddress @entity {
+  id: ID!
+  hater: Hater!
+  rat: Rat!
+  address: Bytes!
+}
+
+type Hater @entity {
+  id: ID!
+  depositAddresses: [DepositAddress!] @derivedFrom(field: "hater")
+}
+
+type Bet @entity {
+  id: ID!
+  race: Race!
+  rat: Rat!
+  hater: Hater!
+  amount: BigInt!
+}
+
+type Race @entity {
+  id: ID!
+  launchTime: BigInt!
+  finishTime: BigInt!
+  bets: [Bet!] @deriverFrom(field: "race")
+  winner: Rat
+  amount: BigInt!
+  finished: Boolean!
+}
