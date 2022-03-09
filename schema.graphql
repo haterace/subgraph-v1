@@ -46,3 +46,9 @@ type Withdrawal @entity {
   withdrawalTime: BigInt!
   amount: BigInt!
 }
+
+type Skin @entity {
+  id: ID!
+  rat: Rat!
+  owner: Bytes!
+}

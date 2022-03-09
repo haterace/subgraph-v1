@@ -41,3 +41,26 @@ dataSources:
         - event: Withdrawn(indexed address,indexed uint256,uint256)
           handler: handleWithdrawn
       file: ./src/mapping.ts
+  - kind: ethereum
+    name: RatSkins
+    network: matic
+    source:
+      address: "0xFACd70b48Dac224315C89C14C24Da92A9895bB1D"
+      abi: RatSkins
+      startBlock: 25727583
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - SkinCreated
+        - Transfer
+      abis:
+        - name: RatSkins
+          file: ./abis/RatSkins.json
+      eventHandlers:
+        - event: SkinCreated(indexed uint256,indexed uint256,string)
+          handler: handleSkinCreated
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mapping-skins.ts
