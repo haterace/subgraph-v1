@@ -33,7 +33,7 @@ type Race @entity {
   id: ID!
   launchTime: BigInt!
   finishTime: BigInt!
-  bets: [Bet!] @deriverFrom(field: "race")
+  bets: [Bet!] @derivedFrom(field: "race")
   winner: Rat
   amount: BigInt!
   finished: Boolean!
